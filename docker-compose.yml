@@ -1,0 +1,56 @@
+# Menjalankan seluruh sistem:  docker compose up --build
+# Menambah worker:             docker compose up --scale worker=3
+# Sebelumnya:                  python scripts/make_env.py docker
+# BELUM DIUJI dengan docker build (akses Docker Hub tidak tersedia saat project dibuat).
+
+services:
+  api:
+    build: .
+    env_file: .env
+    ports: ["8000:8000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build: .
+    env_file: .env
+    command: ["python", "-m", "worker.worker"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    env_file: .env                       # dashboard membaca DASHBOARD_API_KEY dari sini
+    environment:
+      POLICYGUARD_API_URL: http://api:8000
+    ports: ["8501:8501"]
+    depends_on:
+      api: { condition: service_healthy }
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: policyguard
+      POSTGRES_PASSWORD: policyguard      # hanya untuk lokal; di server sungguhan pakai secret
+      POSTGRES_DB: policyguard
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U policyguard"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+
+volumes:
+  pgdata:

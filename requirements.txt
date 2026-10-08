@@ -1,0 +1,11 @@
+# Diuji dengan versi di komentar (Python 3.13). Rentang versi memberi ruang untuk patch.
+fastapi>=0.110,<1            # diuji: 0.142.2
+uvicorn[standard]>=0.29,<1   # diuji: 0.53.0
+pydantic>=2.7,<3             # diuji: 2.13.5
+pydantic-settings>=2.2,<3    # diuji: 2.15.0
+sqlalchemy>=2.0,<3           # diuji: 2.1.3
+psycopg[binary]>=3.1,<4      # diuji: 3.3.6
+openai>=1.40,<4              # diuji: 3.24.0 (dengan server tiruan, bukan API asli)
+prometheus-client>=0.20      # diuji: 0.26.0
+redis>=5,<9                  # diuji: 8.1.0
+numpy>=1.26                  # diuji: 2.5.3

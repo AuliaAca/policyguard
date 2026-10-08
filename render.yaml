@@ -1,0 +1,26 @@
+# Render Blueprint: satu web service gratis berisi API + dashboard (lihat Dockerfile.render dan ADR-019).
+# Cara pakai: Render dashboard -> New -> Blueprint -> pilih repository ini.
+services:
+  - type: web
+    name: policyguard
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: ./
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: SERVICE_API_KEYS          # dibuat acak oleh Render; dipakai dashboard untuk memanggil API internal
+        generateValue: true
+      - key: DASHBOARD_PASSWORD        # Anda isi sendiri saat membuat Blueprint
+        sync: false
+      - key: PIPELINE_MODE             # tanpa AI: tidak ada biaya OpenAI
+        value: rules_only
+      - key: DATABASE_URL              # SQLite sementara: data hilang setiap server tidur/restart
+        value: sqlite:///./policyguard.db
+      - key: SEED_DEMO                 # isi ulang listing contoh setiap server bangun
+        value: "true"
+      - key: SEED_DEMO_N
+        value: "40"
+      - key: LOG_LEVEL
+        value: INFO

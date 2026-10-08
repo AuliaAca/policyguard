@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--port", "8000"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Dashboard",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "args": ["run", "app.py", "--server.port", "8501"],
+      "cwd": "${workspaceFolder}/dashboard",
+      "env": { "POLICYGUARD_API_URL": "http://localhost:8000" },
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "serverReadyAction": {
+        "pattern": "Local URL: (https?://\\S+)",
+        "uriFormat": "%s",
+        "action": "openExternally"
+      }
+    },
+    {
+      "name": "Kirim listing contoh (seed_demo)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/seed_demo.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Smoke test API",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/smoke_test_api.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Evaluasi dev set (rules_only)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "ai.evaluation.run_eval",
+      "args": ["--split", "dev", "--mode", "rules_only"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "PolicyGuard: API + Dashboard",
+      "configurations": ["API", "Dashboard"],
+      "stopAll": true
+    }
+  ]
+}

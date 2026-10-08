@@ -1,0 +1,49 @@
+# Tema dashboard. Streamlit membaca file ini dari folder tempat perintah `streamlit run` dijalankan,
+# jadi dashboard selalu dijalankan dari folder dashboard/ (lihat scripts/run_local.py dan dashboard/Dockerfile).
+
+[server]
+enableStaticServing = true          # menyajikan font dari dashboard/static/fonts (tidak butuh internet)
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"             # sembunyikan tombol Deploy dan menu developer
+showErrorDetails = "full"
+
+[theme]
+base = "light"
+primaryColor = "#2B44B8"            # biru tinta pulpen reviewer
+backgroundColor = "#EEF1F3"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#18222D"
+borderColor = "#D2D9DF"
+baseRadius = "4px"
+font = "Public Sans, sans-serif"
+showWidgetBorder = true
+
+[[theme.fontFaces]]
+family = "Public Sans"
+url = "app/static/fonts/public-sans-latin-400-normal.woff2"
+weight = "400"
+
+[[theme.fontFaces]]
+family = "Public Sans"
+url = "app/static/fonts/public-sans-latin-600-normal.woff2"
+weight = "600"
+
+[[theme.fontFaces]]
+family = "Public Sans"
+url = "app/static/fonts/public-sans-latin-700-normal.woff2"
+weight = "700"
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible"
+url = "app/static/fonts/atkinson-hyperlegible-latin-400-normal.woff2"
+weight = "400"
+
+[[theme.fontFaces]]
+family = "Atkinson Hyperlegible"
+url = "app/static/fonts/atkinson-hyperlegible-latin-700-normal.woff2"
+weight = "700"

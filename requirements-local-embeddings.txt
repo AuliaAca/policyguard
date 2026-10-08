@@ -1,0 +1,3 @@
+# Opsional: embedding lokal tanpa API (EMBEDDING_PROVIDER=local).
+# Menarik PyTorch (ukuran besar). Belum diuji di project ini.
+sentence-transformers>=2.7

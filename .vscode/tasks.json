@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "PolicyGuard: buat .env (tanpa AI)",
+      "type": "shell",
+      "command": "${command:python.interpreterPath}",
+      "args": ["scripts/make_env.py", "local"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "PolicyGuard: buat .env (dengan AI, minta OPENAI_API_KEY)",
+      "type": "shell",
+      "command": "${command:python.interpreterPath}",
+      "args": ["scripts/make_env.py", "local", "--ai"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "focus": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "PolicyGuard: jalankan semua test",
+      "type": "shell",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "pytest", "-q"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "PolicyGuard: validasi dataset",
+      "type": "shell",
+      "command": "${command:python.interpreterPath}",
+      "args": ["scripts/validate_dataset.py", "data/eval/listings.jsonl", "data/policies/listing_policy.md"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ]
+}
